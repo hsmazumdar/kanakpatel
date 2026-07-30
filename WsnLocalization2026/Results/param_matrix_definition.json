@@ -1,0 +1,43 @@
+{
+  "param_matrix": {
+    "n_nodes": [
+      50,
+      100,
+      150,
+      200,
+      300
+    ],
+    "tx_pct": [
+      5,
+      8,
+      10,
+      12,
+      15,
+      20,
+      25,
+      30
+    ],
+    "k_neighbors": [
+      6,
+      10,
+      12
+    ],
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "fixed": {
+    "canvas_w": 800,
+    "canvas_h": 800,
+    "attraction": 0.3,
+    "moves_per_tick": 100,
+    "max_ticks": 250,
+    "nod_size": 20,
+    "normalize_span": 0.9,
+    "path_loss_eta": 2.5
+  }
+}

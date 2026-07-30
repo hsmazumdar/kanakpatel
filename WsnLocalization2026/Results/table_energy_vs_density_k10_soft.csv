@@ -1,0 +1,6 @@
+n_nodes,k_neighbors,target_degree,min_tx_pct,tx_energy_proxy,soft_converge_rate,rmse_avg,mean_degree_avg,note,density
+50,10,8.0,20.0,0.017889,1.0,188.468,8.76,energy-optimal Tx for density,7.8125e-05
+100,10,8.0,15.0,0.008714,0.6,115.907,9.33,energy-optimal Tx for density,0.00015625
+150,10,8.0,10.0,0.003162,0.2,266.338,8.124,energy-optimal Tx for density,0.000234375
+200,10,8.0,10.0,0.003162,0.4,120.704,9.52,energy-optimal Tx for density,0.0003125
+300,10,8.0,8.0,0.00181,0.2,208.963,9.524,energy-optimal Tx for density,0.00046875
