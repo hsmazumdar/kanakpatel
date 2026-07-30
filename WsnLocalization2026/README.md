@@ -9,6 +9,10 @@
 
 **Paper file:** [`paper/Direction-Aware Routing via Reference-Free Relative Localization in WSN V04.docx`](paper/Direction-Aware%20Routing%20via%20Reference-Free%20Relative%20Localization%20in%20WSN%20V04.docx)
 
+**Canonical GitHub path (Kanak Patel lead author):**  
+https://github.com/hsmazumdar/kanakpatel/tree/main/WsnLocalization2026  
+(short form often used in papers: `https://github.com/hsmazumdar/kanakpatel/WsnLocalization2026`)
+
 ---
 
 ## Repository contents
