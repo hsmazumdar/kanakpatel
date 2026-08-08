@@ -1,5 +1,5 @@
 """
-B1–B3: Localization quality / topological consistency (Mode A, planned geometry).
+B1–B3: Localization quality / topological consistency (planned geometry).
 
 Produces:
   Results/topology_quality_raw.csv
@@ -26,7 +26,7 @@ from wsn_sim import SimConfig, _procrustes_align, run_trial_detailed  # noqa: E4
 RESULTS = ROOT / "Results"
 FIGS = RESULTS / "figures"
 
-# V01-style sizes; Mode A (reference layout supplies expected distances)
+# V01-style sizes; planned geometry (reference layout supplies expected distances)
 # MDS init + attraction refine yields stable angular metrics for the quality table.
 NODE_SIZES = [25, 64, 100, 250, 500, 750, 1000, 1500, 2000]
 N_SEEDS_DEFAULT = 20
@@ -74,8 +74,8 @@ def guideline_angle_errors(
     """
     Black-guideline angle analysis: for each undirected stored neighbor edge, compare
     direction angle in the reference map vs the similarity-aligned localized map.
-    Mode A: planned geometry is the independent reference; expected distances come
-    from that same layout (standard for planned deployments).
+    Planned geometry is the independent reference; expected distances come
+    from that same layout (standard for structured deployments).
     """
     errs = []
     for i, nbrs in enumerate(dst_id):
@@ -273,7 +273,7 @@ def make_topology_figure(n: int = FIG_N, seed: int = FIG_SEED) -> Path:
             spine.set_visible(False)
 
     fig.suptitle(
-        f"Topological preservation (N={n}, Mode A, seed={seed}, "
+        f"Topological preservation (N={n}, planned geometry, seed={seed}, "
         f"Procrustes RMSE={rmse:.1f} px)",
         fontsize=11,
     )
@@ -353,9 +353,9 @@ def summarize(raw: pd.DataFrame) -> pd.DataFrame:
 def write_table_markdown(summary: pd.DataFrame) -> None:
     lines = [
         "",
-        "## Table (Ver03). Topological consistency — black guideline angle analysis (Mode A)",
+        "## Table (Ver03). Topological consistency — black guideline angle analysis (planned geometry)",
         "",
-        "Mode A planned geometry; classical MDS init on expected-distance shortest paths, "
+        "Planned geometry; classical MDS init on expected-distance shortest paths, "
         "then asymmetric-attraction refine; uniform (similarity) normalization. "
         "Seeds: 20 for N<1000, 10 for N≥1000. "
         f"Canvas 800×800, k=10, Tx% = clip(100·{RANGE_FACTOR}·spacing/diag, 5, 45).",
@@ -395,13 +395,13 @@ def update_captions() -> None:
 
 ## Ver03 topology-quality figures (B1–B3)
 
-**Fig. T1 (Ver03).** Topological preservation in a 250-node network (Mode A: planned geometry → expected distances; classical MDS initialization on the distance graph; asymmetric-attraction refine; uniform scale normalization). Left: reference topology; right: localized topology after similarity (Procrustes) alignment. Gray lines are communication edges; black polylines are column guidelines used for angular-structure comparison.
+**Fig. T1 (Ver03).** Topological preservation in a 250-node network (planned geometry → expected distances; classical MDS initialization on the distance graph; asymmetric-attraction refine; uniform scale normalization). Left: reference topology; right: localized topology after similarity (Procrustes) alignment. Gray lines are communication edges; black polylines are column guidelines used for angular-structure comparison.
 *File:* `figures/fig_topology_preservation_N250.png`
 
 **Fig. T2 (Ver03).** Correspondence guidelines after Procrustes (similarity) alignment for N=250: black segments join each reference node to its localized counterpart (subsampled for clarity). Short segments indicate isometric consistency up to residual noise.
 *File:* `figures/fig_topology_guidelines_overlay_N250.png`
 
-**Table T1 (Ver03).** Summary of topological consistency across network sizes using black guideline angle analysis (relative edge-direction MAE, SD, CV) and directional correctness (±30°). Mode A with MDS init + attraction refine; 20 seeds (10 for N≥1000). Auditable CSVs under `Results/`.
+**Table T1 (Ver03).** Summary of topological consistency across network sizes using black guideline angle analysis (relative edge-direction MAE, SD, CV) and directional correctness (±30°). Planned-geometry constraints with MDS init + attraction refine; 20 seeds (10 for N≥1000). Auditable CSVs under `Results/`.
 *Source:* `table_topology_angle_mae.csv` · also in `paper_tables.md`
 """
     text = path.read_text(encoding="utf-8") if path.exists() else ""

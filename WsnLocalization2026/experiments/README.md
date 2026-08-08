@@ -22,7 +22,7 @@ python experiments/make_figures_and_tables.py
 
 ## Topology quality (Ver03 B1–B3)
 
-Restores V01-style localization-quality figure + angle MAE table (Mode A).
+Restores V01-style localization-quality figure + angle MAE table under planned-geometry expected distances.
 
 ```bash
 python experiments/run_topology_quality.py

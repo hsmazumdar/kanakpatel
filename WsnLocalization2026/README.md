@@ -10,8 +10,7 @@
 **Paper file:** [`paper/Direction-Aware Routing via Reference-Free Relative Localization in WSN V04.docx`](paper/Direction-Aware%20Routing%20via%20Reference-Free%20Relative%20Localization%20in%20WSN%20V04.docx)
 
 **Canonical GitHub path (Kanak Patel lead author):**  
-https://github.com/hsmazumdar/kanakpatel/tree/main/WsnLocalization2026  
-(short form often used in papers: `https://github.com/hsmazumdar/kanakpatel/WsnLocalization2026`)
+https://github.com/hsmazumdar/kanakpatel/tree/main/WsnLocalization2026
 
 ---
 
@@ -48,12 +47,12 @@ cd experiments
 python run_density_tx_sweep.py
 python make_figures_and_tables.py
 
-# Mode A topology quality + Figs 6–7 (N=250 figure uses seed 13 after postprocess)
+# Topology quality + Figs 6–7 (N=250 figure uses seed 13 after postprocess)
 python run_topology_quality.py
 python postprocess_topology_quality.py
 ```
 
-**Fig. 6–7 protocol (documented in the paper):** Mode A expected distances → classical MDS initialization on shortest-path distances → short asymmetric-attraction refine → uniform (similarity) normalize.  
+**Fig. 6–7 protocol (documented in the paper):** planned-geometry expected distances → classical MDS initialization on shortest-path distances → short asymmetric-attraction refine → uniform (similarity) normalize.  
 Reproduce the exact figure trial:
 
 ```python
@@ -70,9 +69,10 @@ make_topology_figure(250, 13)
 
 ## Relation to the algorithm in the paper
 
-- **Proposed core rule:** asymmetric neighbor attraction under expected-distance constraints (Mode A / Mode B discussed in text).
+- **Proposed core rule:** asymmetric neighbor attraction under planned-geometry expected-distance constraints (structured IoT / validation setting used throughout the logged experiments).
 - **Density–Tx study:** attraction-based headless runs (`wsn_sim.py`), auditable CSVs under `Results/`.
-- **Topology Figs 6–7:** Mode A quality evaluation with **MDS init + attraction refine** (stated in captions). MDS alone largely determines the map; attraction is a short refine. Cold-start attraction-only can be multimodal—hence the documented MDS-init protocol for that section.
+- **Topology Figs 6–7:** localization-quality evaluation with **MDS init + attraction refine** (stated in captions). MDS alone largely determines the map; attraction is a short refine. Cold-start attraction-only can be multimodal—hence the documented MDS-init protocol for that section.
+- **Scope note:** Experiments do not include packet-level routing campaigns; directional consistency is reported as support for geographic routing use, not as a full protocol-stack validation.
 
 ---
 

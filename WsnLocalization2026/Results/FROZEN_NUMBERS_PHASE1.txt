@@ -1,0 +1,178 @@
+==============================================================================
+PHASE 1 FROZEN NUMBERS SHEET
+Manuscript target: Reference-FreeRelativeLocalizationWsn.docx
+Experiment root: kanakpatel-main/WsnLocalization2026
+Frozen UTC: 2026-08-08 00:34:26 UTC
+Protocol labels: planned-geometry expected distances (no Mode A/B in paper text)
+==============================================================================
+
+0) RUN STATUS
+----------------------------------------
+Density-Tx trials in results_raw.csv: 600 (expect 600)
+Topology trials in topology_quality_raw.csv: 150 (expect 150)
+Scripts completed: run_density_tx_sweep.py | make_figures_and_tables.py
+                 run_topology_quality.py | postprocess_topology_quality.py
+                 make_topology_figure(250, 13)
+
+Artifact SHA256 (first 16 hex) - use to detect accidental overwrite:
+  results_raw.csv                           4e52dcd3b1af91e1  55514 bytes
+  results_summary.csv                       70c03e7adb315e0e  10242 bytes
+  table_energy_vs_density_k10.csv           545e5eeb587efaee  439 bytes
+  table_min_tx_for_degree8.csv              46ba8248842fe3ba  962 bytes
+  table_min_tx_for_degree6.csv              66ca31cf3cc4b4fb  1184 bytes
+  table_convergence_rate_k10.csv            6a0773bb9882034d  679 bytes
+  topology_quality_raw.csv                  052aa414a70be6e9  25940 bytes
+  topology_quality_summary.csv              eab611d114a83270  1325 bytes
+  table_topology_angle_mae.csv              b93e488e8ee74dae  706 bytes
+  figures/fig1_min_tx_vs_N.png             b0ec17ccbf30c5a4  50630 bytes
+  figures/fig2_energy_vs_N.png             f56cc8504bfd4115  55338 bytes
+  figures/fig3_degree_vs_tx.png            9f96ee4ab627a094  86616 bytes
+  figures/fig4_soft_converge_heatmap.png   cf4e2eec4e87566d  39243 bytes
+  figures/fig5_connected_vs_tx.png         1908f0e2b161d491  59041 bytes
+  figures/fig_topology_preservation_N250.png  24739a0c2e346b80  1008080 bytes
+  figures/fig_topology_guidelines_overlay_N250.png  23594f055c263463  89457 bytes
+
+1) FIXED CONTROLS (density-Tx matrix)
+----------------------------------------
+Canvas: 800 x 800
+N: 50, 100, 150, 200, 300
+tx_pct: 5, 8, 10, 12, 15, 20, 25, 30  (% of canvas diagonal)
+k_neighbors: 6, 10, 12
+seeds: 0..4  => 5 x 8 x 3 x 5 = 600 trials
+attraction=0.3, moves_per_tick=100, max_ticks=250, path_loss_eta=2.5
+
+2) DENSITY-Tx DEPLOYMENT TABLE (k=10) - USE IN PAPER Sec.6 / IoT PARAGRAPH
+   Source: table_energy_vs_density_k10.csv
+----------------------------------------
+     N        density   min_tx_%      E_proxy  conv_rate   rmse_avg
+    50   7.812500e-05       20.0     0.017889        1.0    247.208
+   100   1.562500e-04       15.0     0.008714        0.6    116.065
+   150   2.343750e-04       10.0     0.003162        0.2    191.178
+   200   3.125000e-04       10.0     0.003162        0.0    214.382
+   300   4.687500e-04        8.0     0.001810        0.0    307.751
+
+KEY CLAIM NUMBERS (freeze for DOCX):
+  N=50  -> min Tx = 20% of diagonal; E_proxy = 0.017889
+  N=300 -> min Tx = 8% of diagonal; E_proxy = 0.001810
+  Energy-proxy reduction factor (N50@minTx / N300@minTx) = 9.88x
+  IoT paragraph wording: for 800x800 deployment, raising density to 300 nodes
+  allows cutting min Tx from 20% to 8% of diagonal while targeting mean degree ~8-10.
+
+2b) SOFT-THRESHOLD ENERGY TABLE (optional; from make_figures_and_tables)
+   Source: table_energy_vs_density_k10_soft.csv
+----------------------------------------
+     N   min_tx_%      E_proxy  soft_conv   mean_deg
+    50       20.0     0.017889        1.0      8.760
+   100       15.0     0.008714        0.6      9.330
+   150       10.0     0.003162        0.4      8.124
+   200       10.0     0.003162        0.2      9.520
+   300        8.0     0.001810        0.2      9.524
+
+3) MIN Tx FOR MEAN DEGREE >= 8 / CONNECTED
+   Source: table_min_tx_for_degree8.csv
+----------------------------------------
+ n_nodes  k_neighbors  target_degree  min_tx_pct  tx_energy_proxy  converge_rate  rmse_avg                          note
+      50            6            8.0         NaN              NaN            NaN       NaN      no feasible tx in matrix
+      50           10            8.0        20.0         0.017889            1.0   247.208 energy-optimal Tx for density
+      50           12            8.0        20.0         0.017889            0.8   245.393 energy-optimal Tx for density
+     100            6            8.0         NaN              NaN            NaN       NaN      no feasible tx in matrix
+     100           10            8.0        15.0         0.008714            0.6   116.065 energy-optimal Tx for density
+     100           12            8.0        15.0         0.008714            1.0   112.951 energy-optimal Tx for density
+     150            6            8.0         NaN              NaN            NaN       NaN      no feasible tx in matrix
+     150           10            8.0        10.0         0.003162            0.2   191.178 energy-optimal Tx for density
+     150           12            8.0        10.0         0.003162            0.2   178.758 energy-optimal Tx for density
+     200            6            8.0         NaN              NaN            NaN       NaN      no feasible tx in matrix
+     200           10            8.0        10.0         0.003162            0.0   214.382 energy-optimal Tx for density
+     200           12            8.0        10.0         0.003162            0.6   179.074 energy-optimal Tx for density
+     300            6            8.0         NaN              NaN            NaN       NaN      no feasible tx in matrix
+     300           10            8.0         8.0         0.001810            0.0   307.751 energy-optimal Tx for density
+     300           12            8.0         8.0         0.001810            0.0   335.680 energy-optimal Tx for density
+
+4) MIN Tx FOR MEAN DEGREE >= 6 / CONNECTED
+   Source: table_min_tx_for_degree6.csv
+----------------------------------------
+ n_nodes  k_neighbors  target_degree  min_tx_pct  tx_energy_proxy  converge_rate  rmse_avg  mean_degree_avg                          note
+      50            6            6.0        30.0         0.049295            0.6   264.063            6.000 energy-optimal Tx for density
+      50           10            6.0        20.0         0.017889            1.0   247.208            8.760 energy-optimal Tx for density
+      50           12            6.0        20.0         0.017889            0.8   245.393            9.600 energy-optimal Tx for density
+     100            6            6.0        20.0         0.017889            0.4   134.840            6.000 energy-optimal Tx for density
+     100           10            6.0        12.0         0.004988            0.6    39.283            7.222 energy-optimal Tx for density
+     100           12            6.0        12.0         0.004988            0.6    47.359            7.276 energy-optimal Tx for density
+     150            6            6.0        15.0         0.008714            0.0   276.679            6.000 energy-optimal Tx for density
+     150           10            6.0        10.0         0.003162            0.2   191.178            8.124 energy-optimal Tx for density
+     150           12            6.0        10.0         0.003162            0.2   178.758            8.287 energy-optimal Tx for density
+     200            6            6.0        15.0         0.008714            0.0   213.438            6.000 energy-optimal Tx for density
+     200           10            6.0         8.0         0.001810            0.0   236.343            7.207 energy-optimal Tx for density
+     200           12            6.0         8.0         0.001810            0.2   237.012            7.226 energy-optimal Tx for density
+     300            6            6.0        12.0         0.004988            0.0   287.273            6.000 energy-optimal Tx for density
+     300           10            6.0         8.0         0.001810            0.0   307.751            9.524 energy-optimal Tx for density
+     300           12            6.0         8.0         0.001810            0.0   335.680           10.632 energy-optimal Tx for density
+
+5) CONVERGENCE RATE vs Tx (k=10)
+   Source: table_convergence_rate_k10.csv
+----------------------------------------
+ n_nodes  k_neighbors  tx5.0_converge  tx5.0_degree  tx8.0_converge  tx8.0_degree  tx10.0_converge  tx10.0_degree  tx12.0_converge  tx12.0_degree  tx15.0_converge  tx15.0_degree  tx20.0_converge  tx20.0_degree  tx25.0_converge  tx25.0_degree  tx30.0_converge  tx30.0_degree
+      50           10             1.0         0.312             1.0         1.208              1.0          2.288              1.0          3.600              0.8          5.976              1.0          8.760              1.0          9.704              1.0          9.948
+     100           10             1.0         0.824             1.0         2.872              0.6          4.908              0.6          7.222              0.6          9.330              1.0          9.954              1.0         10.000              0.8         10.000
+     150           10             1.0         1.637             0.2         5.085              0.2          8.124              0.4          9.474              0.4          9.936              0.6         10.000              0.6         10.000              0.6         10.000
+     200           10             1.0         2.418             0.0         7.207              0.0          9.520              0.2          9.894              0.2          9.997              0.2         10.000              0.2         10.000              0.2         10.000
+     300           10             0.6         4.017             0.0         9.524              0.0          9.955              0.0          9.998              0.0         10.000              0.0         10.000              0.0         10.000              0.0         10.000
+
+6) TOPOLOGY / DIRECTIONAL CONSISTENCY (PLANNED GEOMETRY)
+   Protocol: classical MDS init on expected-distance shortest paths ->
+             asymmetric-attraction refine -> uniform (similarity) normalize
+   Paper table uses TRIAL MEDIANS (postprocess), not means.
+   Source: table_topology_angle_mae.csv + topology_quality_summary.csv
+----------------------------------------
+     N ref_cols  MAE_med       SD      CV%  dir_corr   succ<6           assess best_seed
+    25        5   7.3415   5.9011  80.6949     98.8%      45%    Well Achieved        19
+    64        8   9.2954   8.2185  82.1703     97.2%      40%    Well Achieved         2
+   100       10  45.3990  27.4166  74.3067     96.8%      50%  Needs Attention        16
+   250       16   2.8619   2.6609  91.7551     94.5%     100%        Excellent        13
+   500       23   3.1132   2.8902  91.2833     94.8%      95%        Excellent        19
+   750       28   3.1541   3.0259  95.0314     94.0%      95%        Excellent        13
+  1000       32   3.3324   3.4552  99.2526     93.2%     100%        Excellent         1
+  1500       39   3.3999   3.3756  98.2946     91.2%      90%        Excellent         1
+  2000       45   3.4892   3.4924 102.3576     93.8%      80%        Excellent         6
+
+PRIMARY FIGURE / HEADLINE TOPOLOGY NUMBERS (freeze for DOCX):
+  N=250 median relative edge-direction MAE = 2.8619 deg
+  N=250 directional correctness (+/-30 deg) = 94.5%
+  N=250 success rate (MAE < 6 deg)         = 100%
+  N=250 best/display seed                  = 13  (Figs 6-7)
+  N=250 seed=13 trial: MAE=2.5432 deg, dir=94.0%, Procrustes RMSE=3.78 px
+
+NOTE: Do NOT cite raw means from run_topology_quality stdout for small N;
+      occasional reflection/flip trials inflate means (~90 deg). Paper uses medians.
+
+WARNING - numerical lookalike, NOT the old 23xN bug:
+  At N=500, reference_columns = 23 (ceil(sqrt(500))). This is layout columns,
+  NOT an iterations~23xN formula. Never write iterations ~ 23xN.
+
+7) FIGURE FILES TO EMBED / KEEP SYNCED
+----------------------------------------
+  Results/figures/fig1_min_tx_vs_N.png
+  Results/figures/fig2_energy_vs_N.png
+  Results/figures/fig3_degree_vs_tx.png
+  Results/figures/fig4_soft_converge_heatmap.png
+  Results/figures/fig5_connected_vs_tx.png
+  Results/figures/fig_topology_preservation_N250.png
+  Results/figures/fig_topology_guidelines_overlay_N250.png
+
+8) COPY-READY SENTENCES (Mode-label-free)
+----------------------------------------
+Density-Tx: On an 800x800 canvas with k=10, the minimum transmission range
+meeting the degree~8 connectivity target falls from 20% of the diagonal at
+N=50 to 8% at N=300, reducing the path-loss energy proxy by about an order
+of magnitude (9.9x in the logged table).
+
+Topology: Under planned-geometry expected-distance constraints with MDS
+initialization and asymmetric-attraction refine, the N=250 trial-median
+relative edge-direction MAE is 2.86 deg with directional correctness
+94.5% (seed 13 shown in the preservation figures).
+
+9) NEXT GATE
+----------------------------------------
+Phase 2: COMPLETE (see PHASE2_REPO_SCRUB.txt).
+Phase 3: edit Reference-FreeRelativeLocalizationWsn.docx using ONLY these numbers.
+==============================================================================

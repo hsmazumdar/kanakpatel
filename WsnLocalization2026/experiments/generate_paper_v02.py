@@ -175,11 +175,11 @@ def build():
         "softening claims that were not supported by a consistent, auditable experiment "
         "matrix; (ii) reframing convergence as local lemma + empirical global behavior; "
         "(iii) acknowledging global normalization as a simulation limitation; (iv) removing "
-        "unsupported scalability extrapolations (e.g., 10,000-node projections and the "
-        "inconsistent “iterations ≈ 23×N” versus “~4000 iterations at N=1000” statements); "
+        "unsupported scalability extrapolations (e.g., 10,000-node projections and "
+        "inconsistent iteration-count statements such as ~4000 iterations at N=1000); "
         "and (v) adding a new, fully logged density-versus-Tx experimental section with CSV "
         "artifacts under Results/. Dummy “implemented gossip normalization” and packet-level "
-        "NS-3 claims that were not executed in the current codebase are not asserted here; "
+        "routing claims that were not executed in the current codebase are not asserted here; "
         "they remain future work.",
         size=10,
         space_after=12,
@@ -269,7 +269,8 @@ def build():
     )
     add_para(
         doc,
-        "*Expected distances may come from planned spacing or hop proxies, not physical ranging. "
+        "*Expected distances in this work come from planned spacing (structured deployments), "
+        "not physical ranging hardware. "
         "†Local asymmetric updates are neighbor-only; the current simulator applies global "
         "scale normalization after batches of updates.",
         size=9,
@@ -291,23 +292,11 @@ def build():
     add_para(
         doc,
         "For each edge (or stored neighbor pair) the algorithm uses an expected distance d*_ij. "
-        "Two acquisition modes are distinguished:",
-    )
-    add_para(
-        doc,
-        "Mode A — Planned geometry (validation baseline). In structured deployments, nominal "
-        "spacing is known from layout. Constraints are taken from reference geometry (as in the "
-        "present WinForms/Python simulators that build a k-nearest unit-disk distance matrix "
-        "from a grid-with-jitter layout).",
-        space_after=4,
-    )
-    add_para(
-        doc,
-        "Mode B — Connectivity-derived (ad-hoc). When no layout is known, hop-count proxies "
-        "can supply ordered expected distances. V01 discussed hop radius h and scale α; this "
-        "revision does not treat Mode B as fully validated by the new logged density–Tx matrix, "
-        "and we avoid circular evaluation (constraints and scoring must not reuse the same "
-        "connectivity realization without an independent reference).",
+        "In this manuscript, expected distances come from planned geometry in structured "
+        "deployments (validation baseline). Constraints are taken from reference geometry, "
+        "as in the present WinForms/Python simulators that build a k-nearest unit-disk "
+        "distance matrix from a grid-with-jitter layout. All reported experimental results "
+        "use this planned-geometry constraint source.",
         space_after=8,
     )
     add_heading_custom(doc, "3.3 Problem statement", 2)
@@ -522,8 +511,8 @@ def build():
     )
     add_para(
         doc,
-        "Removed from V02: the claim “iterations ≈ 23×N”; the statement that a 1000-node "
-        "network converges in ~4000 iterations under that linear law; and extrapolations to "
+        "Removed from V02: inconsistent iteration-count extrapolations (including ad-hoc "
+        "linear-in-N rules and ~4000-iteration claims at N=1000) and extrapolations to "
         "10,000 nodes. Those statements were mutually inconsistent with the stated iteration "
         "cap and are not part of the auditable Results/ corpus.",
         space_after=10,
@@ -542,7 +531,7 @@ def build():
         doc,
         "Routing failures in greedy schemes are often topological voids (local minima), not "
         "pure localization error [1,14]. Perimeter/face recovery remains complementary. "
-        "V02 does not claim new NS-3 packet-level campaigns; integrating relative coordinates "
+        "V02 does not claim new packet-level routing campaigns; integrating relative coordinates "
         "into GPSR-style stacks is future work. The density–Tx results matter for routing "
         "because connectivity and degree govern both embedding quality and forwarding options: "
         "energy-optimal Tx must still keep the graph usable for greedy progress.",
@@ -599,7 +588,7 @@ def build():
     add_heading_custom(doc, "8.2 Limitations", 2)
     limits = [
         "Global scale normalization in the current simulator.",
-        "Density–Tx matrix uses Mode A (planned/geometric constraints), fixed canvas, and N≤300.",
+        "Density–Tx matrix uses planned-geometry constraints, fixed canvas, and N≤300.",
         "Hard finish flags under-report practical convergence; soft metrics are preferred.",
         "Packet-level routing and distributed normalization are not re-validated in V02.",
         "Assumes a working connected component; extremely sparse graphs remain out of scope.",
@@ -612,8 +601,7 @@ def build():
     add_heading_custom(doc, "8.3 Future work", 2)
     futures = [
         "Implement and measure gossip-based normalization [19] against the global baseline.",
-        "Unify Mode B (hop constraints) with independent reference evaluation to avoid circularity.",
-        "Packet-level GPSR/perimeter experiments (e.g., NS-3) comparing relative vs. true coordinates on void rates.",
+        "Packet-level GPSR/perimeter experiments comparing relative vs. true coordinates on void rates, path stretch, and overhead.",
         "Map Tx% to dBm using the log-normal model (PL0, η, σ) for radio sizing worksheets.",
         "Extend density–Tx sweeps to larger N and irregular obstacle maps.",
     ]
@@ -688,7 +676,7 @@ def build():
                 "Lemma 1 local only; global labeled empirical",
             ],
             [
-                "Iterations ≈ 23×N vs ~4000 @ N=1000 vs T_max",
+                "Inconsistent iteration-count extrapolations vs T_max",
                 "Removed inconsistent scalability narrative",
             ],
             [
@@ -696,7 +684,7 @@ def build():
                 "Removed",
             ],
             [
-                "Dummy gossip / NS-3 results in response letter",
+                "Dummy gossip / packet-level routing results in response letter",
                 "Not included as manuscript claims",
             ],
             [

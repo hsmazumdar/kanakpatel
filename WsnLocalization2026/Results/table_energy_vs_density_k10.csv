@@ -1,6 +1,6 @@
 n_nodes,density,min_tx_pct,tx_energy_proxy,converge_rate,rmse_avg,note
-50,7.812500e-05,20.0,0.017889,1.0,188.468,energy-optimal Tx for density
-100,1.562500e-04,15.0,0.008714,0.4,115.907,energy-optimal Tx for density
-150,2.343750e-04,10.0,0.003162,0.2,266.338,energy-optimal Tx for density
-200,3.125000e-04,10.0,0.003162,0.2,120.704,energy-optimal Tx for density
-300,4.687500e-04,8.0,0.00181,0.0,208.963,energy-optimal Tx for density
+50,7.812500e-05,20.0,0.017889,1.0,247.208,energy-optimal Tx for density
+100,1.562500e-04,15.0,0.008714,0.6,116.065,energy-optimal Tx for density
+150,2.343750e-04,10.0,0.003162,0.2,191.178,energy-optimal Tx for density
+200,3.125000e-04,10.0,0.003162,0.0,214.382,energy-optimal Tx for density
+300,4.687500e-04,8.0,0.00181,0.0,307.751,energy-optimal Tx for density

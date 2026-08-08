@@ -46,9 +46,9 @@ def summarize_robust(raw: pd.DataFrame) -> pd.DataFrame:
 def write_table_markdown(summary: pd.DataFrame) -> None:
     lines = [
         "",
-        "## Table (Ver03). Topological consistency — black guideline angle analysis (Mode A)",
+        "## Table (Ver03). Topological consistency — black guideline angle analysis (planned geometry)",
         "",
-        "Mode A planned geometry; classical MDS initialization on expected-distance "
+        "Planned-geometry expected distances; classical MDS initialization on expected-distance "
         "shortest paths, then asymmetric-attraction refine; uniform normalize. "
         "Reported MAE/SD/CV and directional correctness are **trial medians**. "
         "Success = fraction of trials with MAE < 6°. Seeds: 20 (N<1000) or 10 (N≥1000).",
@@ -93,7 +93,7 @@ def update_captions(best_seed: int) -> None:
 
 ## Ver03 topology-quality figures (B1–B3)
 
-**Fig. T1 (Ver03).** Topological preservation in a 250-node network (Mode A: planned geometry supplies expected distances; classical MDS initialization on the distance graph; asymmetric-attraction refine; uniform scale normalization). Left: reference topology; right: localized map after similarity (Procrustes) alignment. Gray: communication edges; black: column guidelines. Shown trial seed={best_seed}.
+**Fig. T1 (Ver03).** Topological preservation in a 250-node network (planned geometry supplies expected distances; classical MDS initialization on the distance graph; asymmetric-attraction refine; uniform scale normalization). Left: reference topology; right: localized map after similarity (Procrustes) alignment. Gray: communication edges; black: column guidelines. Shown trial seed={best_seed}.
 *File:* `figures/fig_topology_preservation_N250.png`
 
 **Fig. T2 (Ver03).** Correspondence guidelines after Procrustes alignment (N=250, same trial as Fig. T1): black segments join reference nodes to localized counterparts (subsampled).

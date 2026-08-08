@@ -2,7 +2,7 @@
 Generate revised manuscript V03 as a Word document.
 
 Merges: V02 honesty + density–Tx study
-      + restored Mode A topology-quality figure/table (V01 §6.3 spirit, auditable)
+      + restored planned-geometry topology-quality figure/table (V01 §6.3 spirit, auditable)
       + OnNormalization clarity (distributed vs global scale; deployment dissemination as future design)
 """
 from __future__ import annotations
@@ -154,12 +154,12 @@ def build():
         "Lyapunov proof. This Version 03 retains the auditable density-versus-transmission-range "
         "study (600 trials) showing that higher node density enables substantially lower radio "
         "range—and thus lower transmit energy—while maintaining a usable neighbor degree (≈8–10). "
-        "It further restores a Mode A topological-consistency evaluation with logged artifacts: "
-        "for N=250 the median relative edge-direction MAE is ≈2.9° with directional correctness "
-        "≈94.5%. We clarify the distributed-scope ambiguity of relative maps (similarity "
-        "invariance implies some network-wide agreement on scale/frame) and outline deployment "
-        "options (gossip of centroid/scale, or tapered dissemination of link summaries) without "
-        "asserting unimplemented flood or NS-3 results.",
+        "It further restores a planned-geometry topological-consistency evaluation with logged "
+        "artifacts: for N=250 the median relative edge-direction MAE is ≈2.9° with directional "
+        "correctness ≈94.5%. We clarify the distributed-scope ambiguity of relative maps "
+        "(similarity invariance implies some network-wide agreement on scale/frame) and outline "
+        "deployment options (gossip of centroid/scale, or tapered dissemination of link summaries) "
+        "without asserting unimplemented flood or packet-level routing campaigns.",
         size=11,
         space_after=8,
     )
@@ -180,13 +180,13 @@ def build():
         "claims, reframing convergence as local lemma + empirical global behavior, "
         "acknowledging global normalization as a simulation limitation, removing inconsistent "
         "scalability extrapolations, and adding a logged density-versus-Tx study. Dummy "
-        "“implemented gossip normalization” and NS-3 results were not asserted.",
+        "“implemented gossip normalization” and packet-level routing results were not asserted.",
         size=10,
         space_after=6,
     )
     add_para(
         doc,
-        "Version 03 keeps that honesty and adds: (i) an auditable Mode A localization-quality "
+        "Version 03 keeps that honesty and adds: (i) an auditable planned-geometry localization-quality "
         "section with topology-preservation figures and an angle-MAE / directional-correctness "
         "table under Results/; (ii) an expanded clarification of why relative embeddings need "
         "some form of network-wide scale/frame agreement, and how a real deployment might obtain "
@@ -220,7 +220,7 @@ def build():
         "Asymmetric neighbor-attraction algorithm with a rigorous local reduction lemma and an explicitly empirical global convergence statement.",
         "Honest distributed-scope statement — local updates are neighbor-only; global normalization in the current simulator is disclosed as a limitation, with deployment alternatives sketched for Ver03.",
         "Density–Tx deployment study — denser deployments permit lower Tx (energy) while preserving usable degree and connectivity (600 trials).",
-        "Restored Mode A topological consistency evaluation — auditable angle-MAE / directional-correctness table and N=250 preservation figures.",
+        "Restored planned-geometry topological consistency evaluation — auditable angle-MAE / directional-correctness table and N=250 preservation figures.",
         "Reproducible experiment artifacts — CSVs, figures, and captions under Results/.",
     ]
     for b in bullets:
@@ -232,8 +232,8 @@ def build():
         doc,
         "Organization: Section 2 reviews related work. Section 3 states the model. Section 4 "
         "describes the algorithm (including expanded normalization discussion). Section 5 "
-        "presents convergence status. Section 6 reports experiments: density–Tx and Mode A "
-        "localization quality. Section 7 discusses routing use. Section 8 concludes with "
+        "presents convergence status. Section 6 reports experiments: density–Tx and "
+        "planned-geometry localization quality. Section 7 discusses routing use. Section 8 concludes with "
         "limitations and future work.",
         space_after=10,
     )
@@ -283,7 +283,8 @@ def build():
     )
     add_para(
         doc,
-        "*Expected distances may come from planned spacing or hop proxies, not physical ranging. "
+        "*Expected distances in this work come from planned spacing (structured deployments), "
+        "not physical ranging hardware. "
         "†Local asymmetric updates are neighbor-only; the current simulator applies global "
         "scale normalization after batches of updates.",
         size=9,
@@ -305,23 +306,11 @@ def build():
     add_para(
         doc,
         "For each edge (or stored neighbor pair) the algorithm uses an expected distance d*_ij. "
-        "Two acquisition modes are distinguished:",
-    )
-    add_para(
-        doc,
-        "Mode A — Planned geometry (validation baseline). In structured deployments, nominal "
-        "spacing is known from layout. Constraints are taken from reference geometry (as in the "
-        "present WinForms/Python simulators that build a k-nearest unit-disk distance matrix "
-        "from a grid-with-jitter layout).",
-        space_after=4,
-    )
-    add_para(
-        doc,
-        "Mode B — Connectivity-derived (ad-hoc). When no layout is known, hop-count proxies "
-        "can supply ordered expected distances. V01 discussed hop radius h and scale α; this "
-        "revision does not treat Mode B as fully validated by the new logged density–Tx matrix, "
-        "and we avoid circular evaluation (constraints and scoring must not reuse the same "
-        "connectivity realization without an independent reference).",
+        "In this manuscript, expected distances come from planned geometry in structured "
+        "deployments (validation baseline typical of industrial and agricultural IoT layouts). "
+        "Constraints are taken from reference geometry, as in the present WinForms/Python "
+        "simulators that build a k-nearest unit-disk distance matrix from a grid-with-jitter "
+        "layout. All reported experimental results use this planned-geometry constraint source.",
         space_after=8,
     )
     add_heading_custom(doc, "3.3 Problem statement", 2)
@@ -376,7 +365,7 @@ def build():
     add_para(
         doc,
         "Initialize positions (random, scrambled, or MDS on expected-distance shortest paths for "
-        "Mode A quality runs). Repeatedly: sample a node; relax violated neighbor constraints "
+        "topology-quality runs). Repeatedly: sample a node; relax violated neighbor constraints "
         "asymmetrically; optionally normalize; stop when no sampled batch finds a violation "
         "(hard stop) or when residual violation falls below a tolerance (soft stop). Neighbor "
         "lists are truncated to the k nearest contacts inside radio range R (Tx).",
@@ -544,13 +533,13 @@ def build():
         "constraints exist; such cases are excluded from soft success by the degree≥6 rule.",
     )
 
-    add_heading_custom(doc, "6.5 Localization quality and topological consistency (Mode A)", 2)
+    add_heading_custom(doc, "6.5 Localization quality and topological consistency (planned geometry)", 2)
     add_para(
         doc,
         "V01 presented a topology-preservation figure and angle-MAE table that motivated the "
         "routing-centric thesis, but those numbers were not part of the V02 auditable density–Tx "
         "corpus. Version 03 restores this evaluation with logged artifacts under Results/. "
-        "Protocol (Mode A): planned geometry supplies expected distances; classical MDS "
+        "Protocol: planned geometry supplies expected distances; classical MDS "
         "initialization on shortest-path completion of those distances; short asymmetric-attraction "
         "refine; uniform (similarity) normalization. Metrics after Procrustes alignment: "
         "black-guideline edge-direction MAE / SD / CV, and directional correctness (fraction of "
@@ -558,12 +547,12 @@ def build():
         "destination bearing in the reference). Reported table values are trial medians "
         "(20 seeds for N<1000; 10 seeds for N≥1000). Cold-start random/scrambled initialization "
         "alone is multimodal under one-sided attraction; MDS init is therefore documented as the "
-        "stable Mode A quality protocol used here.",
+        "stable quality protocol used here.",
     )
     try_add_figure(doc, FIGS / "fig_topology_preservation_N250.png", width=6.2)
     add_caption(
         doc,
-        "Fig. 6. Topological preservation in a 250-node network (Mode A; MDS init + attraction "
+        "Fig. 6. Topological preservation in a 250-node network (planned geometry; MDS init + attraction "
         "refine; uniform normalize; seed=13). Left: reference topology; right: localized topology "
         "after similarity (Procrustes) alignment. Gray: communication edges; black: column "
         "guidelines. Procrustes RMSE ≈ 3.8 px.",
@@ -616,8 +605,9 @@ def build():
     )
     add_para(
         doc,
-        "Removed earlier (retained from V02): the claim “iterations ≈ 23×N”; the inconsistent "
-        "“~4000 iterations at N=1000” under that law; and extrapolations to 10,000 nodes.",
+        "Removed earlier (retained from V02): inconsistent iteration-count extrapolations "
+        "(including ad-hoc linear-in-N rules and ~4000-iteration claims at N=1000) and "
+        "extrapolations to 10,000 nodes.",
         space_after=10,
     )
 
@@ -634,7 +624,7 @@ def build():
         doc,
         "Routing failures in greedy schemes are often topological voids (local minima), not "
         "pure localization error [1,14]. Perimeter/face recovery remains complementary. "
-        "V03 does not claim new NS-3 packet-level campaigns; integrating relative coordinates "
+        "V03 does not claim new packet-level routing campaigns; integrating relative coordinates "
         "into GPSR-style stacks is future work. The density–Tx results matter for routing "
         "because connectivity and degree govern both embedding quality and forwarding options: "
         "energy-optimal Tx must still keep the graph usable for greedy progress.",
@@ -649,7 +639,7 @@ def build():
         "lightweight alternative to metric localization for direction-aware WSN routing. The "
         "asymmetric attraction rule offers clear local progress; global convergence remains "
         "empirically supported rather than fully proved. The density–Tx study provides "
-        "deployment guidance (raise density to cut Tx while holding degree ≈8–10). The Mode A "
+        "deployment guidance (raise density to cut Tx while holding degree ≈8–10). The "
         "topology-quality study shows that, under a documented MDS-init protocol, angular "
         "errors of a few degrees and ~94% directional correctness are attainable at N=250 with "
         "auditable artifacts. Normalization remains a disclosed simulation dependence; "
@@ -664,7 +654,7 @@ def build():
         ["Finding", "Evidence", "Implication"],
         [
             [
-                "Directional objective supported (Mode A)",
+                "Directional objective supported (planned geometry)",
                 "§6.5; Figs. 6–7; Table 5 (N=250 MAE≈2.9°)",
                 "Metric survey accuracy not required for greedy direction",
             ],
@@ -694,8 +684,8 @@ def build():
     add_heading_custom(doc, "8.2 Limitations", 2)
     limits = [
         "Global scale normalization in the current simulator (not a measured gossip deployment).",
-        "Density–Tx matrix uses Mode A constraints, fixed canvas, and N≤300.",
-        "Topology-quality uses Mode A with MDS initialization; small-N MDS can be unstable; Mode B hop constraints remain future work.",
+        "Density–Tx matrix uses planned-geometry constraints, fixed canvas, and N≤300.",
+        "Topology-quality uses planned-geometry constraints with MDS initialization; small-N MDS can be unstable.",
         "Hard finish flags under-report practical convergence; soft metrics are preferred.",
         "Packet-level routing and distributed normalization are not re-validated in V03.",
         "Assumes a working connected component; extremely sparse graphs remain out of scope.",
@@ -709,8 +699,7 @@ def build():
     futures = [
         "Implement and measure gossip-based normalization [19] against the global baseline (preferred over full RSS-table flood).",
         "Evaluate tapered link/RSS-summary dissemination and mobile update-rate schedules as deployment options discussed in §4.2.",
-        "Unify Mode B (hop constraints) with independent reference evaluation to avoid circularity.",
-        "Packet-level GPSR/perimeter experiments (e.g., NS-3) comparing relative vs. true coordinates on void rates.",
+        "Packet-level GPSR/perimeter experiments comparing relative vs. true coordinates on void rates, path stretch, and overhead.",
         "Map Tx% to dBm using the log-normal model (PL0, η, σ) for radio sizing worksheets.",
         "Extend density–Tx sweeps to larger N and irregular obstacle maps.",
     ]
@@ -786,11 +775,11 @@ def build():
                 "Lemma 1 local only; global labeled empirical",
             ],
             [
-                "Iterations ≈ 23×N / 10k-node extrapolations",
+                "Inconsistent iteration-count / 10k-node extrapolations",
                 "Removed (V02)",
             ],
             [
-                "Dummy gossip / NS-3 results in response letter",
+                "Dummy gossip / packet-level routing results in response letter",
                 "Not included as manuscript claims",
             ],
             [
