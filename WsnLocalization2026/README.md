@@ -1,86 +1,195 @@
-# WsnLocalization2026
+# GPS-Denied Direction-Aware Routing
 
-**Companion code and reproducible artifacts** for the manuscript:
+Companion **code and reproducible artifacts** for:
 
-> *Direction-Aware Routing via Reference-Free Relative Localization in Wireless Sensor Networks*  
-> **Submission version: V04** (Q1)  
-> Authors: Kanak Patel & Himanshu S. Mazumdar  
+> **GPS-Denied Direction-Aware Routing Using Reference-Free Relative Localization**  
+> Kanak Patel and Himanshu S. Mazumdar  
 > Dharmsinh Desai University, Nadiad, India
 
-**Paper file:** [`paper/Direction-Aware Routing via Reference-Free Relative Localization in WSN V04.docx`](paper/Direction-Aware%20Routing%20via%20Reference-Free%20Relative%20Localization%20in%20WSN%20V04.docx)
+The submitted manuscript is **not stored in this repository**.
 
-**Canonical GitHub path (Kanak Patel lead author):**  
-https://github.com/hsmazumdar/kanakpatel/tree/main/WsnLocalization2026
 
 ---
 
-## Repository contents
+## Question
 
-| Path | Description |
-|------|-------------|
-| `paper/` | Final V04 manuscript (Word) |
-| `Results/` | Logged CSVs, tables, figure PNGs, captions |
-| `experiments/` | Headless Python simulator + sweep scripts |
-| `WsnQukMap/` | Interactive C# WinForms prototype (Visual Studio) |
+Can a wireless sensor network continue direction-aware forwarding when absolute GPS coordinates are unavailable?
+
+## Idea
+
+Rather than recovering geographic coordinates, construct a relative map that preserves enough directional structure to make local forwarding decisions.
+
+In this repository, **GPS-denied** means GPS is unavailable, inaccessible, unreliable, or intentionally not used. **Reference-free** means there are no absolute geographic anchors, not that the algorithm has zero geometric information.
+
+```
+Absolute GPS coordinates
+          X
+          X  unavailable
+          X
+Neighbour geometry
+          |
+          v
+Relative coordinate map
+          |
+          v
+Direction to destination
+          |
+          v
+Greedy neighbour selection
+          |
+          v
+Packet delivery
+```
 
 ---
 
-## Quick start for reviewers
+## Quick start
 
-### A. Inspect published results (no run required)
-
-- Density vs Tx figures: `Results/figures/fig1_*.png` … `fig5_*.png`
-- Topology preservation (manuscript Figs 6–7):  
-  `Results/figures/fig_topology_preservation_N250.png`  
-  `Results/figures/fig_topology_guidelines_overlay_N250.png`
-- Tables / captions: `Results/paper_tables.md`, `Results/captions.md`, `Results/table_*.csv`
-
-### B. Reproduce Python experiments
-
-**Requirements:** Python 3.9+, `numpy`, `pandas`, `matplotlib`
+**Windows reviewers:** double-click `run_demo.bat` (this folder or the repository root). Choose **1** for the visual demo (a new source/destination each trial) or **3** to install requirements first.
 
 ```bash
-pip install numpy pandas matplotlib
-cd experiments
+pip install -r requirements.txt
+python experiments/gps_denied_demo.py
+python demo/dynamic_gps_denied_routing.py
+```
 
-# Density–Tx matrix (600 trials; several minutes)
+Expected console output (values vary with seed):
+
+```
+GPS STATUS: DENIED
+RELATIVE MAP: ACTIVE
+PACKET: 108 -> 75 -> DESTINATION
+Packet delivered
+Hops: ...
+Reference-route hops: ...
+Route stretch: ...
+Absolute GPS coordinates used: NO
+```
+
+Expected files:
+
+| Output | Content |
+|--------|---------|
+| `Results/figures/figA_gps_denied_concept.png` | Concept diagram (manuscript Figure 1) |
+| `Results/gps_denied_demo_summary.csv` | Phase-1 ground truth vs Phase-2 GPS-denied PDR/stretch |
+
+Single-packet CLI:
+
+```bash
+python experiments/gps_denied_greedy_routing.py --n 120 --seed 13
+```
+
+Interactive / animated demo (qualitative only):
+
+```bash
+python demo/dynamic_gps_denied_routing.py --save-gif
+```
+
+writes `Results/figures/demo_gps_denied_snapshot.png` and `demo_gps_denied_routing.gif`.
+
+---
+
+## Reproduce the main routing results
+
+One command regenerates the principal comparison:
+
+```bash
+python experiments/routing_reference_vs_relative.py --seeds 20 --pairs 500
+```
+
+This writes:
+
+| File | Content |
+|------|---------|
+| `Results/routing_summary.csv` | PDR, hop count, stretch, failure/loop rates, next-hop agreement |
+| `Results/pdr_comparison.png` | Figure C — packet delivery ratio |
+| `Results/path_stretch.png` | Hop stretch |
+| `Results/failure_rate.png` | Greedy failure rate |
+| `Results/figures/figB_example_routes.png` | Same pair routed in reference vs relative frames |
+
+Coordinate-error tolerance:
+
+```bash
+python experiments/localization_noise_sensitivity.py --seeds 10 --pairs 300
+```
+
+writes `Results/routing_noise_summary.csv`, `Results/noise_pdr.png`, `Results/figures/figD_noise_sensitivity.png`.
+
+Rebuild logged routing figures from the experiment scripts (no manuscript file is generated in-repo):
+
+---
+
+## What the logged routing campaign showed
+
+On connected planned-geometry unit-disk graphs, **N=250**, 20 seeds, 500 pairs/seed (10,000 paired routes per case):
+
+| Case | PDR | Mean hops | Hop stretch | Next-hop agreement with reference |
+|------|-----|-----------|-------------|-----------------------------------|
+| A Reference coordinates | 1.000 | 4.469 | 1.147 | — |
+| B MDS-only | 1.000 | 4.457 | 1.143 | 0.895 |
+| C MDS + attraction | 1.000 | 4.457 | 1.143 | 0.895 |
+
+Gaussian perturbation of the relative map up to **30% of nominal spacing** left PDR at 1.000; stretch rose from 1.142 to 1.167.
+
+MDS-only and MDS+attraction are indistinguishable here, matching the geometric ablation (median ΔMAE = 0). Delivery saturation is a property of these well-connected graphs without large voids; it is not a claim of guaranteed GPS replacement. Frozen numbers: `Results/FROZEN_NUMBERS_GPS_DENIED_ROUTING.txt`.
+
+---
+
+## Repository layout
+
+Existing density–Tx and topology-quality artefacts are kept. New routing code is added beside them.
+
+```
+README.md
+LICENSE
+requirements.txt
+src/
+    relative_localization.py      # planned geometry, MDS, relative map
+    asymmetric_relaxation.py      # one-sided upper-bound updates
+    mds_initialization.py
+    greedy_directional_routing.py # min-angle next hop + safeguards
+    metrics.py
+experiments/
+    gps_denied_demo.py
+    gps_denied_greedy_routing.py
+    routing_reference_vs_relative.py
+    localization_noise_sensitivity.py
+    routing_voids.py
+    wsn_sim.py                    # original density–Tx simulator
+    run_density_tx_sweep.py
+    run_topology_quality.py
+demo/
+    dynamic_gps_denied_routing.py
+Results/                          # CSVs, figures, frozen numbers
+WsnQukMap/                        # original C# WinForms prototype
+```
+
+---
+
+## Earlier density–Tx and topology-quality corpus
+
+These experiments are unchanged and remain part of the manuscript.
+
+```bash
+cd experiments
 python run_density_tx_sweep.py
 python make_figures_and_tables.py
-
-# Topology quality + Figs 6–7 (N=250 figure uses seed 13 after postprocess)
 python run_topology_quality.py
 python postprocess_topology_quality.py
 ```
 
-**Fig. 6–7 protocol (documented in the paper):** planned-geometry expected distances → classical MDS initialization on shortest-path distances → short asymmetric-attraction refine → uniform (similarity) normalize.  
-Reproduce the exact figure trial:
+Headline frozen numbers (see `Results/FROZEN_NUMBERS_PHASE1.txt`):
 
-```python
-from run_topology_quality import make_topology_figure
-make_topology_figure(250, 13)
-```
-
-### C. Interactive C# simulator
-
-1. Open `WsnQukMap/WsnMap.sln` in Visual Studio 2019+ (.NET Framework 4.7.2+).
-2. Build and run. Localization uses asymmetric neighbor attraction with global canvas normalization (simulation convenience; see manuscript §4.2).
-
----
-
-## Relation to the algorithm in the paper
-
-- **Proposed core rule:** asymmetric neighbor attraction under planned-geometry expected-distance constraints (structured IoT / validation setting used throughout the logged experiments).
-- **Density–Tx study:** attraction-based headless runs (`wsn_sim.py`), auditable CSVs under `Results/`.
-- **Topology Figs 6–7:** localization-quality evaluation with **MDS init + attraction refine** (stated in captions). MDS alone largely determines the map; attraction is a short refine. Cold-start attraction-only can be multimodal—hence the documented MDS-init protocol for that section.
-- **Scope note:** Experiments do not include packet-level routing campaigns; directional consistency is reported as support for geographic routing use, not as a full protocol-stack validation.
+- For k=10, lowest tested Tx for mean degree ≥8 and connectivity falls from **20%** of the canvas diagonal at N=50 to **8%** at N=300 (~10× energy-proxy reduction).
+- At N=250, median edge-direction MAE **≈2.86°**, directional-decision correctness **≈94.5%**.
 
 ---
 
 ## License
 
-MIT (see project history / `CODE_OF_CONDUCT.md`). Use for peer review and academic reproduction.
+MIT. See [`LICENSE`](LICENSE).
 
 ## Contact
 
-- Kanak Patel — kanakpatel.rnd@ddu.ac.in  
+- Kanak Patel — kanakpatel.rnd@ddu.ac.in
 - Himanshu S. Mazumdar — hsmazumdar@ddu.ac.in

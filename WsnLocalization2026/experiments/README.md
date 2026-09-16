@@ -51,3 +51,42 @@ python experiments/postprocess_topology_quality.py
 | `table_min_tx_for_degree6.csv` | Same for degree ≥ 6 |
 | `table_energy_vs_density_k10.csv` | Deployment assist: density → min Tx |
 | `table_convergence_rate_k10.csv` | Converge/degree vs Tx for k=10 |
+
+## GPS-denied greedy routing (V05)
+
+Independent Python greedy angular forwarding. Not a line-by-line port of the C# GUI.
+
+```bash
+python experiments/gps_denied_demo.py
+python experiments/routing_reference_vs_relative.py --seeds 20 --pairs 500
+python experiments/localization_noise_sensitivity.py --seeds 10 --pairs 300
+python experiments/routing_voids.py --seeds 10 --pairs 300 --n 250
+python demo/dynamic_gps_denied_routing.py --save-gif
+```
+
+| Output | Content |
+|--------|---------|
+| `routing_summary.csv` | PDR, hops, stretch, failure/loop, next-hop agreement |
+| `pdr_comparison.png` | Case A/B/C packet delivery |
+| `path_stretch.png` | Hop stretch |
+| `failure_rate.png` | Greedy failure rate |
+| `routing_noise_summary.csv` | PDR/stretch vs coordinate perturbation |
+| `figures/figA_gps_denied_concept.png` | Concept figure |
+| `figures/figB_example_routes.png` | Example paths |
+| `figures/figD_noise_sensitivity.png` | Noise robustness |
+
+Library code lives in `src/` (`greedy_directional_routing.py`, `relative_localization.py`, ...).
+
+## Communication-void routing (V02)
+
+```bash
+python experiments/routing_voids.py --seeds 10 --pairs 300 --n 250
+```
+
+| Output | Content |
+|--------|---------|
+| `routing_voids_summary.csv` | PDR/failure around a central void |
+| `figures/figE_void_pdr.png` | Void PDR vs greedy failure |
+| `figures/figE_void_example_routes.png` | Example paths around the hole |
+
+

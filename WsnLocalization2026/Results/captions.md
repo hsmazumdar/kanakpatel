@@ -117,3 +117,26 @@ Publication-ready captions for artifacts under `Results/`. Soft convergence mean
 
 **Table T1 (Ver03).** Topological consistency vs network size (black-guideline edge-direction MAE/SD/CV and directional correctness ±30°). Values are trial **medians**; success rate = fraction with MAE < 6°. Auditable CSVs in `Results/`.
 *Source:* `table_topology_angle_mae.csv` · also in `paper_tables.md`
+
+---
+
+## V05 GPS-denied routing figures
+
+**Fig. A.** GPS-denied forwarding concept: absolute frame unavailable, neighbour constraints, relative embedding, greedy angular selection.
+*File:* `figures/figA_gps_denied_concept.png`
+
+**Fig. B.** Example greedy paths for the same source–destination pair. Left: reference coordinates. Right: relative coordinates after GPS denial.
+*File:* `figures/figB_example_routes.png`
+
+**Fig. C.** Packet delivery ratio, hop stretch and failure rate for reference, MDS-only and MDS+attraction coordinates (N=250, 20 seeds, 500 pairs/seed).
+*Files:* `pdr_comparison.png`, `path_stretch.png`, `failure_rate.png`, `figures/figC_pdr_comparison.png`
+
+**Fig. D.** Packet delivery and hop stretch versus Gaussian perturbation of relative coordinates (0–30% of nominal spacing).
+*Files:* `figures/figD_noise_sensitivity.png`, `figures/figD_noise_stretch.png`
+
+**Demo snapshot.** Qualitative animation still; not scientific validation.
+*File:* `figures/demo_gps_denied_snapshot.png`
+
+**Table R1.** Routing comparison (means over 20 seeds). Source: `routing_summary.csv`.
+**Table R2.** Noise sensitivity. Source: `routing_noise_summary.csv`.
+

@@ -1,0 +1,59 @@
+==============================================================================
+GPS-DENIED GREEDY ROUTING — FROZEN NUMBERS
+Protocol: planned-geometry expected distances; classical MDS init;
+          asymmetric-attraction refine; greedy angular forwarding.
+GPS/reference coordinates are simulation ground truth only.
+Frozen locally: 2026-09-16
+==============================================================================
+
+COMMAND
+  python experiments/routing_reference_vs_relative.py --seeds 20 --pairs 500
+  python experiments/localization_noise_sensitivity.py --seeds 10 --pairs 300
+  python experiments/gps_denied_demo.py
+  python demo/dynamic_gps_denied_routing.py --save-gif
+
+SETUP
+  N=250, k=10, canvas 800x800, RANGE_FACTOR=2.8 spacing, 20 seeds
+  500 connected source-destination pairs per seed (same pairs for all cases)
+  Neighbour set for forwarding: unit-disk radio graph (all nodes within Tx)
+  Max hops: max(N, 4 * shortest-path hops)
+  Greedy rule: minimum angular deviation to destination in the chosen frame
+
+CASE COMPARISON (means over 20 seeds; 10,000 paired routes each)
+  Case A  Reference coordinates
+    PDR=1.000   mean hops=4.469   hop stretch=1.147
+    greedy failure=0.000   loop rate=0.000
+  Case B  MDS-only relative coordinates
+    PDR=1.000   mean hops=4.457   hop stretch=1.143
+    greedy failure=0.000   loop rate=0.000
+    next-hop agreement with reference router=0.895
+  Case C  MDS + asymmetric attraction
+    PDR=1.000   mean hops=4.457   hop stretch=1.143
+    greedy failure=0.000   loop rate=0.000
+    next-hop agreement with reference router=0.895
+
+INTERPRETATION (do not overclaim)
+  Under the tested connected planned-geometry unit-disk graphs, greedy
+  directional forwarding delivered every sampled packet in all three frames.
+  MDS-only and MDS+attraction are indistinguishable on PDR, stretch and
+  next-hop agreement, consistent with the geometric ablation (median dMAE=0).
+  Discriminating metrics are hop stretch (~1.14-1.15) and next-hop agreement
+  (~89.5%), not packet delivery.
+
+COORDINATE-NOISE SENSITIVITY (N=250, 10 seeds, 300 pairs; noise as fraction
+of nominal spacing applied to the relative map)
+  0%   PDR=1.000  stretch=1.142
+  2%   PDR=1.000  stretch=1.142
+  5%   PDR=1.000  stretch=1.141
+ 10%   PDR=1.000  stretch=1.143
+ 15%   PDR=1.000  stretch=1.148
+ 20%   PDR=1.000  stretch=1.152
+ 30%   PDR=1.000  stretch=1.167
+  PDR remains 1.000 through 30% of spacing; stretch rises modestly.
+
+EXISTING DENSITY-Tx / TOPOLOGY NUMBERS (unchanged; Phase 1 freeze)
+  N=50  min Tx=20% diag, E_proxy=0.0179
+  N=300 min Tx=8%  diag, E_proxy=0.0018   (~9.9x energy-proxy reduction)
+  N=250 median edge-direction MAE=2.86 deg, directional correctness=94.5%
+  MDS vs MDS+attraction median dMAE=0.00, dDir=0.00, dRMSE=0.00 at N=100/250/500
+==============================================================================

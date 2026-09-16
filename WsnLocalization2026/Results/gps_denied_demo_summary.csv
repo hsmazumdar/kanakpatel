@@ -1,0 +1,4 @@
+phase,case,n_pairs,pdr,mean_hops_delivered,mean_stretch_delivered,greedy_failure_rate,loop_rate,dead_end_rate,hop_limit_rate,disconnected_rate,decision_agreement
+GPS_available_ground_truth,A_reference,200.0,1.0,3.44,1.1120833333333333,0.0,0.0,0.0,0.0,0.0,
+GPS_denied,B_mds_only,200.0,1.0,3.46,1.1179166666666667,0.0,0.0,0.0,0.0,0.0,0.927357142857143
+GPS_denied,C_mds_attraction,200.0,1.0,3.46,1.1179166666666667,0.0,0.0,0.0,0.0,0.0,0.927357142857143

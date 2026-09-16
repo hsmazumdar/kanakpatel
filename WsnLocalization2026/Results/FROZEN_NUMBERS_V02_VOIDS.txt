@@ -1,0 +1,17 @@
+==============================================================================
+V02 VOID ROUTING — FROZEN NUMBERS
+python experiments/routing_voids.py --seeds 10 --pairs 300 --n 250
+Central rectangular void; links may not cross; nodes not placed inside.
+==============================================================================
+N=250, 10 seeds, 300 connected pairs/seed (3000 paired routes)
+
+A Reference            PDR=0.917  fail=0.083  stretch=1.247  loops=0.083
+B MDS-only             PDR=0.999  fail=0.001  stretch=1.214  agreement=0.493
+C MDS+attraction       PDR=0.997  fail=0.003  stretch=1.225  agreement=0.473
+
+Open-graph campaign (no void) remains PDR=1.000 for all three cases.
+Do not claim that attraction outperforms MDS. Around a void, geographic
+greedy encounters local minima; the relative angular field is not identical
+and therefore does not fall into the same traps at the same rate.
+Perimeter/face recovery is still future work.
+==============================================================================

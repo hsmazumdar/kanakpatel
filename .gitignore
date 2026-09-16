@@ -1,0 +1,5 @@
+# Manuscripts are not stored in this public repository
+*.docx
+*.doc
+.DS_Store
+Thumbs.db

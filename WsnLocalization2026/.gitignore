@@ -390,3 +390,8 @@ Token.txt
 *.pem
 .env
 .env.*
+
+# Manuscripts are not stored in this public repository
+*.docx
+*.doc
+paper/

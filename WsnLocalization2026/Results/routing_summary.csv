@@ -1,0 +1,4 @@
+case,n_seeds,n_pairs,pdr,pdr_std,mean_hops_delivered,mean_stretch_delivered,greedy_failure_rate,loop_rate,dead_end_rate,hop_limit_rate,disconnected_rate,decision_agreement
+A_reference,20,10000.0,1.0,0.0,4.468500000000001,1.1465277777777776,0.0,0.0,0.0,0.0,0.0,
+B_mds_only,20,10000.0,1.0,0.0,4.4572,1.1432099206349207,0.0,0.0,0.0,0.0,0.0,0.8949253643578643
+C_mds_attraction,20,10000.0,1.0,0.0,4.457,1.1431565873015872,0.0,0.0,0.0,0.0,0.0,0.8949086976911976

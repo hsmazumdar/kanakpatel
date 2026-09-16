@@ -75,3 +75,32 @@ Planned-geometry expected distances; classical MDS initialization on expected-di
 | 2000 | 45 | 3.49 | 102.36 | 3.49 | 93.8% | 80% | Excellent |
 
 *Artifacts:* `topology_quality_raw.csv`, `topology_quality_summary.csv`, `table_topology_angle_mae.csv`, `figures/fig_topology_preservation_N250.png`, `figures/fig_topology_guidelines_overlay_N250.png`.
+
+## Table (V05). GPS-denied greedy routing — reference vs MDS-only vs MDS+attraction
+
+N=250, k=10, 20 seeds, 500 connected pairs per seed (10,000 paired routes). Same pairs for all coordinate cases. Greedy rule: minimum angular deviation to the destination. Stretch = hop_count / BFS shortest-path hops.
+
+| Case | PDR | Mean hops | Hop stretch | Failure | Loop | Decision agreement |
+|------|-----|-----------|-------------|---------|------|-------------------|
+| A Reference | 1.000 | 4.469 | 1.147 | 0.000 | 0.000 | — |
+| B MDS-only | 1.000 | 4.457 | 1.143 | 0.000 | 0.000 | 0.895 |
+| C MDS+attraction | 1.000 | 4.457 | 1.143 | 0.000 | 0.000 | 0.895 |
+
+*Artifacts:* `routing_summary.csv`, `routing_raw.csv`, `pdr_comparison.png`, `path_stretch.png`, `failure_rate.png`, `figures/figB_example_routes.png`.
+
+## Table (V05). Relative-coordinate perturbation (fraction of nominal spacing)
+
+N=250, 10 seeds, 300 pairs. Noise applied to the MDS+attraction map. GPS is not restored.
+
+| Noise % | PDR | Mean hop stretch | Stretch SD |
+|--------:|----:|-----------------:|-----------:|
+| 0 | 1.000 | 1.142 | 0.011 |
+| 2 | 1.000 | 1.142 | 0.010 |
+| 5 | 1.000 | 1.141 | 0.013 |
+| 10 | 1.000 | 1.143 | 0.012 |
+| 15 | 1.000 | 1.148 | 0.013 |
+| 20 | 1.000 | 1.152 | 0.010 |
+| 30 | 1.000 | 1.167 | 0.014 |
+
+*Artifacts:* `routing_noise_summary.csv`, `figures/figD_noise_sensitivity.png`.
+
